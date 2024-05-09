@@ -1,6 +1,6 @@
 <template>
-    <header class="bg-white dark:bg-black dark:text-white dark:link-white">
-    <nav class="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">
+    <header class="bg-blue-400 dark:bg-stone-800 text-white">
+    <nav class="mx-auto flex max-w-7xl items-center justify-between py-8 lg:px-8" aria-label="Global">
       <!-- logo -->
       <div class="flex lg:flex-1">
         <a href="#" class="-m-1.5 p-1.5">
@@ -8,29 +8,32 @@
         </a>
       </div>
       
-      <div class="hidden lg:flex lg:gap-x-12 dark:text-white">
+      <div class="hidden lg:flex lg:gap-x-12 ">
         <RouterLink to="/home">
-          <span class="text-sm font-semibold leading-6 text-gray-900 dark:text-white">Home</span>
+          <span class="text-md font-semibold leading-6 text-white">Home</span>
         </RouterLink>
         <RouterLink to="/newsletter">
-          <span class="text-sm font-semibold leading-6 text-gray-900 dark:text-white">Newsletter</span>
+          <span class="text-md font-semibold leading-6 text-white">Newsletter</span>
         </RouterLink>
         <RouterLink to="/contact">
-          <span class="text-sm font-semibold leading-6 text-gray-900 dark:text-white">Contact</span>
+          <span class="text-md font-semibold leading-6 text-white">Contact</span>
         </RouterLink>
         
       </div>
 
-      <div class="flex flex-1 gap-8 md:gap-12 justify-end">
-        <i class="fa-solid fa-magnifying-glass mt-1 cursor-pointer"></i>
+      <div class="flex flex-1 gap-8 md:gap-12 justify-end items-center">
+        <i class="fa-solid fa-magnifying-glass text-lg mt-1 cursor-pointer"></i>
         <div class="w-2">
-          <i v-if="isDark" class="fa-solid fa-sun cursor-pointer" @click="toggleDark()"></i>
-          <i v-else class="fa-solid fa-moon cursor-pointer" @click="toggleDark()"></i>
+          <i v-if="isDark" class="fa-solid text-lg fa-sun cursor-pointer" @click="toggleDark()"></i>
+          <i v-else class="fa-solid fa-moon text-lg cursor-pointer" @click="toggleDark()"></i>
         </div>
 
         <RouterLink to="/login">
-          <span href="#" class="hidden lg:flex text-sm font-semibold leading-6 text-gray-900 dark:text-white">Log in <span aria-hidden="true">&rarr;</span></span>
+          <span href="#" class="hidden lg:flex text-md font-semibold leading-6  text-white">Register</span>
+        </RouterLink>
 
+        <RouterLink to="/login">
+          <span href="#" class="hidden lg:flex text-md font-semibold leading-6  border border-slate-300 rounded-full px-3  text-white">Log in <span aria-hidden="true">&rarr;</span></span>
         </RouterLink>
       </div>
 
@@ -92,10 +95,11 @@
 </template>
 
 <script setup>
-import { useDark, useToggle } from "@vueuse/core"
-import { ref, onMounted } from "vue";
 
-const isDark = useDark();
+import { ref, onMounted } from "vue";
+import { useDark, useToggle } from "@vueuse/core";
+
+const isDark = useDark()
 const toggleDark = useToggle(isDark)
 
 const isSubmenuShow = ref(false)

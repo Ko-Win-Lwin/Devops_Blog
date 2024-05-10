@@ -5,11 +5,11 @@
   </div>
 
   <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-    <form class="space-y-6" action="#" method="POST">
+    <form class="space-y-6" action="#" method="POST" @submit.prevent="login()">
       <div>
         <label for="email" class="block text-sm font-medium leading-6">Email address</label>
         <div class="mt-2">
-          <input id="email" name="email" type="email" autocomplete="email" required class="focus:outline-none focus:ring-blue-300 block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6">
+          <input v-model="email" id="email" name="email" type="email" autocomplete="email" required class="focus:outline-none focus:ring-blue-300 block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6">
         </div>
       </div>
 
@@ -21,17 +21,16 @@
           </div>
         </div>
         <div class="mt-2">
-          <input id="password" name="password" type="password" autocomplete="current-password" required class="focus:outline-none focus:ring-blue-300 block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset  sm:text-sm sm:leading-6">
+          <input v-model="password" id="password" name="password" type="password" autocomplete="current-password" required class="focus:outline-none focus:ring-blue-300 block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset  sm:text-sm sm:leading-6">
         </div>
       </div>
-
       <div>
         <button type="submit" class="flex w-full justify-center rounded-md bg-blue-400 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Sign in</button>
       </div>
     </form>
 
     <p class="mt-10 text-center text-sm text-gray-500 tracking-wide">
-      Not a member?
+      Not a member? 
       <RouterLink to="/register">
         <span class="font-semibold leading-6 text-blue-400 hover:text-blue-500">Register</span>
       </RouterLink>
@@ -43,5 +42,33 @@
 </template>
 
 <script setup>
-import { RouterLink } from 'vue-router';
+import axios from 'axios';
+import { ref } from 'vue';
+import { RouterLink, useRouter } from 'vue-router';
+import userStore from '../store/userStore';
+
+const router = useRouter()
+
+let email = ref("")
+let password = ref("")
+const store = userStore;
+
+const login = async () => {
+  const loginData = {
+    email: email.value,
+    password: password.value
+  }
+
+  try {
+    const response = await axios.post("http://127.0.0.1:8000/api/login", loginData);
+    store.commit("setUser", response.data)
+    router.push("/home")
+    
+  } catch (error) {
+    console.log("Error", error)
+  }
+  
+}
+
+
 </script>

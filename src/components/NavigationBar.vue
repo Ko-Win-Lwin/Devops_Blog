@@ -20,7 +20,7 @@
           <span class="text-sm font-medium leading-6 dark:text-stone-100 text-stone-600">Contact</span>
         </RouterLink>
         <div v-if="store.state.data.user">
-          <button v-if="store.state.data.user.user.role == 'admin'">
+          <button v-if="store.state.data.user.user.role == 'admin'" @click="write()">
             <span
               class="text-sm font-medium leading-6 dark:text-stone-100  rounded-full px-4 py-2 border border-sky-600 hover:bg-sky-600  text-sky-600 hover:text-white dark:border-stone-100  dark:hover:bg-stone-100 dark:hover:text-stone-600"><i
                 class="fa-solid fa-pencil mr-1"></i> Write</span>
@@ -195,6 +195,11 @@ const login = () => {
   } else {
     router.push("/login")
   }
+}
+
+// if admin => write
+const write = () => {
+  router.push("/dashboard/write")
 }
 
 </script>

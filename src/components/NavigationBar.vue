@@ -1,14 +1,15 @@
 <template>
-    <header class=" dark:bg-stone-700 shadow dark:shadow-none py-4 text-stone-900">
-    <nav class="mx-auto max-w-7xl flex items-center justify-between px-4" aria-label="Global">
+  <header class=" dark:bg-stone-700 shadow dark:shadow-none py-4 text-stone-900">
+    <nav class="mx-auto flex items-center justify-between px-4">
       <!-- logo -->
-      <div class="flex flex-1 w-[25%]">
-        <a href="#" class="-m-1.5 p-1.5 dark:text-stone-100">
-          Zin Lin Htet Logo
+      <div class="">
+        <a href="#" class="dark:text-stone-100">
+          <img src="" alt="" class="w-12">
         </a>
       </div>
-      
-      <div class="hidden lg:flex lg:gap-x-20 w-[40%]">
+
+      <!-- center nav item -->
+      <div class="ml-auto hidden lg:flex gap-16">
         <RouterLink to="/home">
           <span class="text-sm font-medium leading-6 dark:text-stone-100 text-stone-600">Home</span>
         </RouterLink>
@@ -19,55 +20,61 @@
           <span class="text-sm font-medium leading-6 dark:text-stone-100 text-stone-600">Contact</span>
         </RouterLink>
         <div v-if="store.state.data.user">
-          <RouterLink to="/dashboard" v-if="store.state.data.user.user.role == 'admin'">
-          <span class="text-sm font-medium leading-6 dark:text-stone-100 text-stone-600">Admin</span>
-        </RouterLink>
+          <button v-if="store.state.data.user.user.role == 'admin'">
+            <span
+              class="text-sm font-medium leading-6 dark:text-stone-100  rounded-full px-4 py-2 border border-sky-600 hover:bg-sky-600  text-sky-600 hover:text-white dark:border-stone-100  dark:hover:bg-stone-100 dark:hover:text-stone-600"><i
+                class="fa-solid fa-pencil mr-1"></i> Write</span>
+          </button>
         </div>
-        
-        
       </div>
 
-      <div class="flex float-end md:ml-auto mr-6 md:mr-12 lg:mr-0 justify-end items-center lg:gap-8 w-[30%]">
-        
-        <div class="flex justify-center items-center gap-6 md:gap-12 dark:text-stone-100"> 
-          <i class="fa-solid fa-magnifying-glass text-md cursor-pointer w-6"></i>
-          <i v-if="isDark" class="fa-solid text-md fa-sun cursor-pointer w-6" @click="toggleDark()"></i>
-          <i v-else class="fa-solid fa-moon text-md cursor-pointer w-6" @click="toggleDark()"></i>
-          <div v-if="store.state.data.user">
-            <span class="text-sm border w-[3px] h-[3px] p-2 border-sky-600 rounded-full lg:hidden text-stone-600 dark:text-stone-100">{{ store.state.data.user.user.name.charAt(0) }}</span>
-          </div>
-        </div>
+      <!-- side nav items -->
+      <div class="flex justify-between md:ml-auto lg:gap-12 items-center">
 
-        <div v-if="!store.state.data.user">
-          <button @click="login()">
-            <span class="hidden lg:flex text-sm font-medium leading-6  rounded-full px-4 py-1 border border-sky-600 hover:bg-sky-600  text-sky-600 hover:text-white dark:border-stone-100 dark:text-stone-100 dark:hover:bg-stone-100 dark:hover:text-stone-600">Log in →</span>
+        <!-- fancy icon -->
+        <div class="flex justify-between items-center gap-12 dark:text-stone-100">
+          <i class="block fa-solid fa-magnifying-glass text-lg cursor-pointer "></i>
+          <i v-if="isDark" class="block fa-solid text-md fa-sun cursor-pointer" @click="toggleDark()"></i>
+          <i v-else class="block fa-solid fa-moon text-lg cursor-pointer" @click="toggleDark()"></i>
+
+          <!-- humberger menu medium -->
+          <button type="button" @click="toggleSubmenu()"
+            class="lg:hidden text-stone-600 dark:text-stone-100 items-center justify-center rounded-md">
+            <i class="fa-solid fa-bars text-lg"></i>
           </button>
         </div>
 
-        <div v-if="!store.state.data.user">
-          <RouterLink to="/register">
-            <span class="hidden lg:flex text-sm font-medium leading-6  rounded-full px-4 py-1 border border-sky-600 hover:bg-sky-600  text-sky-600 hover:text-white dark:border-stone-100 dark:text-stone-100 dark:hover:bg-stone-100 dark:hover:text-stone-600">Register </span>
-        </RouterLink>
-        </div>
+        <!-- log in log out button -->
+        <div class="lg:flex items-center gap-8 hidden">
+          <div v-if="!store.state.data.user">
+            <button @click="login()">
+              <span
+                class="hidden lg:flex text-sm font-medium leading-6  rounded-full px-4 py-1 border border-sky-600 hover:bg-sky-600  text-sky-600 hover:text-white dark:border-stone-100 dark:text-stone-100 dark:hover:bg-stone-100 dark:hover:text-stone-600">Log
+                in →</span>
+            </button>
+          </div>
 
-        <button v-if="store.state.data.user" class="hidden lg:flex text-sm font-medium leading-6  rounded-full px-4 py-1 border border-sky-600 hover:bg-sky-600  text-sky-600 hover:text-white dark:border-stone-100 dark:text-stone-100 dark:hover:bg-stone-100 dark:hover:text-stone-600" @click="logout">
-          Log Out
-        </button>
+          <div v-if="!store.state.data.user">
+            <RouterLink to="/register">
+              <span
+                class="hidden lg:flex text-sm font-medium leading-6  rounded-full px-4 py-1 border border-sky-600 hover:bg-sky-600  text-sky-600 hover:text-white dark:border-stone-100 dark:text-stone-100 dark:hover:bg-stone-100 dark:hover:text-stone-600">Register
+              </span>
+            </RouterLink>
+          </div>
 
-        <div v-if="store.state.data.user">
-          <span class="hidden text-sm  lg:flex text-stone-600 dark:text-stone-100">{{ store.state.data.user.user.name }}</span>
+          <button v-if="store.state.data.user"
+            class="hidden lg:flex text-sm font-medium leading-6  rounded-full px-4 py-1 border border-sky-600 hover:bg-sky-600  text-sky-600 hover:text-white dark:border-stone-100 dark:text-stone-100 dark:hover:bg-stone-100 dark:hover:text-stone-600"
+            @click="logout">
+            Log Out
+          </button>
+
+          <div v-if="store.state.data.user">
+            <span class="hidden text-sm  lg:flex text-stone-600 dark:text-stone-100">{{ store.state.data.user.user.name
+              }}</span>
+          </div>
         </div>
       </div>
 
-      <!-- humberger menu medium -->
-      <div class="flex lg:hidden">
-        <button type="button" @click="toggleSubmenu()" class="-m-2.5 text-stone-600 dark:text-stone-100 inline-flex items-center justify-center rounded-md p-2.5">
-          <span class="sr-only">Open main menu</span>
-          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-          </svg>
-        </button>
-      </div>
     </nav>
 
 
@@ -75,14 +82,17 @@
     <div class="" role="dialog" aria-modal="true" v-if="isSubmenuShow">
       <!-- Background backdrop, show/hide based on slide-over state. -->
       <div class="fixed inset-0 z-10"></div>
-      <div class="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-stone-100 dark:bg-stone-800 px-4 py-5 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
+      <div
+        class="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-stone-100 dark:bg-stone-800 px-4 py-5 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
         <div class="flex items-center justify-between">
-          <a href="#" class="-m-1 p-1.5">
-            Zin Lin Htet Logo
+          <a href="#" class="dark:text-stone-100">
+            <img src="" alt="" class="w-12">
           </a>
+
           <button type="button" @click="toggleSubmenu()" class="-m-2.5 rounded-md p-2.5 text-stone-700 dark:text-white">
             <span class="sr-only">Close menu</span>
-            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+              aria-hidden="true">
               <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
@@ -95,35 +105,44 @@
                 <!-- sub-menu -->
                 <div class="mt-2 space-y-4 flex flex-col" id="disclosure-1">
                   <RouterLink to="/home">
-                    <span class="dark:text-white block rounded-lg pyh-2 pl-6 pr-3 text-sm font-semibold leading-7 text-stone-600 hover:bg-gray-50">Home</span>
+                    <span
+                      class="dark:text-white block rounded-lg pyh-2 pl-6 pr-3 text-sm font-semibold leading-7 text-stone-600 hover:bg-gray-50">Home</span>
                   </RouterLink>
                   <div v-if="store.state.data.user">
                     <RouterLink to="/dashboard" v-if="store.state.data.user.user.role == 'admin'">
-                    <span class="dark:text-white block rounded-lg pyh-2 pl-6 pr-3 text-sm font-semibold leading-7 text-stone-600 hover:bg-gray-50">Dashboard</span>
-                  </RouterLink>
+                      <span
+                        class="dark:text-white block rounded-lg pyh-2 pl-6 pr-3 text-sm font-semibold leading-7 text-stone-600 hover:bg-gray-50">Dashboard</span>
+                    </RouterLink>
                   </div>
-                  
+
                   <RouterLink to="/newsletter">
-                    <span class="dark:text-white block rounded-lg pyh-2 pl-6 pr-3 text-sm font-semibold leading-7 text-stone-600 hover:bg-gray-50">Newsletter</span>
+                    <span
+                      class="dark:text-white block rounded-lg pyh-2 pl-6 pr-3 text-sm font-semibold leading-7 text-stone-600 hover:bg-gray-50">Newsletter</span>
                   </RouterLink>
                   <RouterLink to="/contact">
-                    <span class="dark:text-white block rounded-lg pyh-2 pl-6 pr-3 text-sm font-semibold leading-7 text-stone-600 hover:bg-gray-50">Contact</span>
+                    <span
+                      class="dark:text-white block rounded-lg pyh-2 pl-6 pr-3 text-sm font-semibold leading-7 text-stone-600 hover:bg-gray-50">Contact</span>
                   </RouterLink>
                   <RouterLink to="/register">
-                    <span class="dark:text-white block rounded-lg pyh-2 pl-6 pr-3 text-sm font-semibold leading-7 text-stone-600 hover:bg-gray-50">Register</span>
+                    <span
+                      class="dark:text-white block rounded-lg pyh-2 pl-6 pr-3 text-sm font-semibold leading-7 text-stone-600 hover:bg-gray-50">Register</span>
                   </RouterLink>
                   <div v-if="!store.state.data.user">
-                    <button  @click="login()">
-                      <span class="dark:text-white block rounded-lg pyh-2 pl-6 pr-3 text-sm font-semibold leading-7 text-stone-600 hover:bg-gray-50">Log in</span>
+                    <button @click="login()">
+                      <span
+                        class="dark:text-white block rounded-lg pyh-2 pl-6 pr-3 text-sm font-semibold leading-7 text-stone-600 hover:bg-gray-50">Log
+                        in</span>
                     </button>
                   </div>
-                  
+
                   <div v-else>
                     <button @click="logout()">
-                      <span class="dark:text-white block rounded-lg pyh-2 pl-6 pr-3 text-sm font-semibold leading-7 text-stone-600 hover:bg-gray-50">Log out</span>
+                      <span
+                        class="dark:text-white block rounded-lg pyh-2 pl-6 pr-3 text-sm font-semibold leading-7 text-stone-600 hover:bg-gray-50">Log
+                        out</span>
                     </button>
                   </div>
-                  
+
                 </div>
               </div>
             </div>
@@ -154,7 +173,7 @@ const toggleSubmenu = () => {
 onMounted(() => {
   window.addEventListener('resize', () => {
     isSubmenuShow.value = false
-  })  
+  })
 })
 
 const router = useRouter()

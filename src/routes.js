@@ -1,8 +1,8 @@
 import Home from './components/HomeView.vue'
 import NewsLetter from './components/NewsLetterView.vue'
 import Contact from './components/ContactView.vue'
-import Login from './components/LoginView.vue'
-import Register from "./components/RegisterView.vue"
+import Register from './components/Auth/RegisterView.vue'
+import Login from "./components/Auth/LoginView.vue"
 import NotFound from './components/NotFound.vue'
 
 
@@ -10,6 +10,8 @@ import Dashboard from './components/Dashboard/DashboardView.vue'
 import WriteBlog from './components/Dashboard/WriteBlog.vue'
 
 import userStore from './store/userStore';
+import BlogDetail from './components/Blogs/BlogDetail.vue'
+import BlogList from "./components/Blogs/BlogList.vue"
 
 
 const store = userStore
@@ -20,6 +22,17 @@ const customRoute = [
         path: "/",
         name: Home,
         component: Home
+    },
+
+    {
+        path: "/blogs",
+        name: BlogList,
+        component: BlogList,
+    },
+    {
+        path: "/blogs/:id",
+        name: BlogDetail,
+        component: BlogDetail,
     },
 
     {
@@ -59,7 +72,7 @@ const customRoute = [
         // if user is logged in do not allow register
         beforeEnter: (to, from, next) => {
             if (!store.state.data.user) {
-                next()
+                next();
             }
         }
     },

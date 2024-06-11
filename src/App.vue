@@ -6,8 +6,4 @@
 
 <script setup>
 import navbar from './components/NavigationBar.vue';
-
-
-
-
 </script>

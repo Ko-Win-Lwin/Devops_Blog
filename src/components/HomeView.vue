@@ -1,10 +1,7 @@
 <template>
-    <div class="">
-        <BlogList></BlogList>
-    </div>
-
+    <blog-list />
 </template>
 
 <script setup>
-import BlogList from "../components/Blogs/BlogList.vue"
+import BlogList from "./Blogs/Blogs.vue"
 </script>

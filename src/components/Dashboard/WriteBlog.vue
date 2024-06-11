@@ -1,3 +1,0 @@
-<template>
-    Write Blog
-</template>

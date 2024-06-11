@@ -1,5 +1,5 @@
 <template>
-    {{ blog[0] }}
+    {{ loading }}
     <div class="mt-6 mx-auto dark:bg-stone-700 max-w-4xl px-10 py-6 bg-white rounded-lg shadow-md">
         <div class="flex justify-between items-center">
             <div class="flex justify-between items-center mt-4">

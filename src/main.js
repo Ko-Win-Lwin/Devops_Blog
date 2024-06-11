@@ -1,17 +1,15 @@
 import { createApp } from 'vue'
-import { createRouter, createWebHistory  } from 'vue-router';
+import { createRouter, createWebHistory } from 'vue-router';
 import './style.css'
 import App from './App.vue'
-import Home from "./components/HelloWorld.vue"
-import About from "./components/About.vue"
+import customRoute from './routes';
 
-const routes = [
-    
-] 
+const routes = customRoute
 
-const router = createRouter({ 
-    history: createWebHistory(), 
-    routes 
+
+const router = createRouter({
+    history: createWebHistory(),
+    routes
 })
 
 const app = createApp(App);
